@@ -1,5 +1,9 @@
 package com.ccsw.tutorialgame.game;
 
+import com.ccsw.tutorialgame.author.AuthorClient;
+import com.ccsw.tutorialgame.author.model.AuthorDto;
+import com.ccsw.tutorialgame.category.CategoryClient;
+import com.ccsw.tutorialgame.category.model.CategoryDto;
 import com.ccsw.tutorialgame.game.model.Game;
 import com.ccsw.tutorialgame.game.model.GameDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +31,12 @@ public class GameController {
     @Autowired
     ModelMapper mapper;
 
+    @Autowired
+    CategoryClient categoryClient;
+
+    @Autowired
+    AuthorClient authorClient;
+
     /**
      * Método para recuperar una lista de {@link Game}
      *
@@ -37,10 +47,20 @@ public class GameController {
     @Operation(summary = "Find", description = "Method that return a filtered list of Games")
     @RequestMapping(path = "", method = RequestMethod.GET)
     public List<GameDto> find(@RequestParam(value = "title", required = false) String title, @RequestParam(value = "idCategory", required = false) Long idCategory) {
+        List<CategoryDto> categories = categoryClient.findAll();
+        List<AuthorDto> authors = authorClient.findAll();
 
-        List<Game> game = this.gameService.find(title, idCategory);
+        return gameService.find(title, idCategory).stream().map(game -> {
+            GameDto gameDto = new GameDto();
 
-        return game.stream().map(e -> mapper.map(e, GameDto.class)).collect(Collectors.toList());
+            gameDto.setId(game.getId());
+            gameDto.setTitle(game.getTitle());
+            gameDto.setAge(game.getAge());
+            gameDto.setCategory(categories.stream().filter(category -> category.getId().equals(game.getIdCategory())).findFirst().orElse(null));
+            gameDto.setAuthor(authors.stream().filter(author -> author.getId().equals(game.getIdAuthor())).findFirst().orElse(null));
+
+            return gameDto;
+        }).collect(Collectors.toList());
     }
 
     /**
