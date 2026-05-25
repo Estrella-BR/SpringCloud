@@ -23,7 +23,6 @@
         <spring-cloud.version>2025.0.2</spring-cloud.version>
     </properties>
 
-    <!-- ✅ IMPORTANTE: BOM de Spring Cloud -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -38,31 +37,26 @@
 
     <dependencies>
 
-        <!-- ✅ Gateway correcto (reactivo) -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-        <!-- ✅ Eureka client -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- ✅ LoadBalancer requerido para lb:// -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
-        <!-- ✅ Opcional (pero recomendable para pruebas) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- ✅ Tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
