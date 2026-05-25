@@ -67,7 +67,7 @@ public class LoanController {
     @Operation(summary = "Find", description = "Method that return a filtered list of Loans")
     @RequestMapping(path = "", method = RequestMethod.POST)
     public Page<LoanDto> find(@RequestBody LoanSearchDto dto) {
-        List<GameDto> games = gameClient.findAll();
+        List<GameDto> games = gameClient.find();
         List<ClientDto> clients = clientCLient.findAll();
 
         Page<Loan> page = loanService.findPage(dto);
